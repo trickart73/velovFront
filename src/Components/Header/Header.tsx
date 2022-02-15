@@ -35,12 +35,11 @@ function Header() {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null)
-    console.log('handleCloseUserMenu')
   }
 
   return (
-    <div>
-      <AppBar position="static">
+    <div className="header">
+      <AppBar position="static" style={{ background: '#C32D2D' }}>
         <Container maxWidth="xl">
           <Toolbar disableGutters>
             <Typography
@@ -49,7 +48,7 @@ function Header() {
               component="div"
               sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
             >
-              Find your Velov
+              FIND YOUR VELOV
             </Typography>
 
             <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -98,7 +97,7 @@ function Header() {
               component="div"
               sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
             >
-              Find your Velov
+              FIND YOUR VELOV
             </Typography>
 
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
@@ -108,7 +107,9 @@ function Header() {
                   onClick={handleCloseNavMenu}
                   sx={{ my: 2, color: 'white', display: 'block' }}
                 >
-                  <Link style={{ textDecoration: 'none' }} to={`/${page}`} />
+                  <Link style={{ textDecoration: 'none', color: 'white' }} to={`/${page}`}>
+                    {page}
+                  </Link>
                 </Button>
               ))}
             </Box>
@@ -145,18 +146,6 @@ function Header() {
                   </MenuItem>
                 ))}
               </Menu>
-            </Box>
-
-            <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}>
-              {settings.map((setting) => (
-                <Button
-                  key={setting}
-                  onClick={handleCloseUserMenu}
-                  sx={{ my: 2, color: 'white', display: 'block' }}
-                >
-                  <Link style={{ textDecoration: 'none' }} to={`/${setting}`} />
-                </Button>
-              ))}
             </Box>
           </Toolbar>
         </Container>
