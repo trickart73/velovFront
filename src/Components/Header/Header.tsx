@@ -48,7 +48,9 @@ function Header() {
               component="div"
               sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
             >
-              FIND YOUR VELOV
+              <Link style={{ textDecoration: 'none', color: 'white' }} to="/">
+                HOME
+              </Link>
             </Typography>
 
             <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -97,7 +99,9 @@ function Header() {
               component="div"
               sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
             >
-              FIND YOUR VELOV
+              <Link style={{ textDecoration: 'none', color: 'white' }} to="/">
+                HOME
+              </Link>
             </Typography>
 
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
