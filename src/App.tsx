@@ -9,7 +9,7 @@ import ReactDOM from 'react-dom'
 
 import Map from './Components/Map/Map'
 import Dashboard from './Components/Dashboard/Dashboard'
-import Preferences from './Components/Preferences/Preferences'
+import About from './Components/About/About'
 import Login from './Components/Login/Login'
 import Header from './Components/Header/Header'
 
@@ -25,13 +25,13 @@ function App() {
           <h1>Velov x Keyrus</h1>
           <Link to="/">Home</Link>
           <Link to="/map">Map</Link>
-          <Link to="/preferences">Preferences</Link>
+          <Link to="/about">About</Link>
           <Link to="/login">Login</Link>
         </nav> */}
         <Routes>
           <Route path="/" element={<Dashboard />} />
           <Route path="/map" element={<Map />} />
-          <Route path="/preferences" element={<Preferences />} />
+          <Route path="/about" element={<About />} />
           <Route path="/login" element={<Login />} />
         </Routes>
       </BrowserRouter>
