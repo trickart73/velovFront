@@ -1,79 +1,128 @@
+/* eslint-disable no-unused-vars */
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 import AppBar from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
 import Toolbar from '@mui/material/Toolbar'
-import Typography from '@mui/material/Typography'
 import IconButton from '@mui/material/IconButton'
-import MenuIcon from '@mui/icons-material/Menu'
-import AccountCircle from '@mui/icons-material/AccountCircle'
-import Switch from '@mui/material/Switch'
-import FormControlLabel from '@mui/material/FormControlLabel'
-import FormGroup from '@mui/material/FormGroup'
-import MenuItem from '@mui/material/MenuItem'
+import Typography from '@mui/material/Typography'
 import Menu from '@mui/material/Menu'
+import MenuIcon from '@mui/icons-material/Menu'
+import Container from '@mui/material/Container'
+import Avatar from '@mui/material/Avatar'
+import Button from '@mui/material/Button'
+import Tooltip from '@mui/material/Tooltip'
+import MenuItem from '@mui/material/MenuItem'
 
-export default function Header() {
-  const [auth, setAuth] = React.useState(true)
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
+const pages = ['Map', 'Preferences']
+const settings = ['Login']
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setAuth(event.target.checked)
+function Header() {
+  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null)
+  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null)
+
+  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElNav(event.currentTarget)
+  }
+  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElUser(event.currentTarget)
   }
 
-  const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget)
+  const handleCloseNavMenu = () => {
+    setAnchorElNav(null)
   }
 
-  const handleClose = () => {
-    setAnchorEl(null)
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null)
+    console.log('handleCloseUserMenu')
   }
 
   return (
     <div>
-
-      <Box sx={{ flexGrow: 1 }}>
-        <FormGroup>
-          <FormControlLabel
-            control={(
-              <Switch
-                checked={auth}
-                onChange={handleChange}
-                aria-label="login switch"
-              />
-          )}
-            label={auth ? 'Logout' : 'Login'}
-          />
-        </FormGroup>
-        <AppBar position="static">
-          <Toolbar>
-            <IconButton
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-              sx={{ mr: 2 }}
+      <AppBar position="static">
+        <Container maxWidth="xl">
+          <Toolbar disableGutters>
+            <Typography
+              variant="h6"
+              noWrap
+              component="div"
+              sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
             >
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               Find your Velov
             </Typography>
-            {auth && (
-            <div>
+
+            <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
               <IconButton
                 size="large"
                 aria-label="account of current user"
                 aria-controls="menu-appbar"
                 aria-haspopup="true"
-                onClick={handleMenu}
+                onClick={handleOpenNavMenu}
                 color="inherit"
               >
-                <AccountCircle />
+                <MenuIcon />
               </IconButton>
               <Menu
                 id="menu-appbar"
-                anchorEl={anchorEl}
+                anchorEl={anchorElNav}
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'left',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'left',
+                }}
+                open={Boolean(anchorElNav)}
+                onClose={handleCloseNavMenu}
+                sx={{
+                  display: { xs: 'block', md: 'none' },
+                }}
+              >
+                {pages.map((page) => (
+                  <MenuItem key={page} onClick={handleCloseNavMenu}>
+                    <Typography textAlign="center">
+                      <Link style={{ textDecoration: 'none' }} to={`/${page}`}>
+                        {page}
+                      </Link>
+                    </Typography>
+                  </MenuItem>
+                ))}
+              </Menu>
+            </Box>
+            <Typography
+              variant="h6"
+              noWrap
+              component="div"
+              sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
+            >
+              Find your Velov
+            </Typography>
+
+            <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+              {pages.map((page) => (
+                <Button
+                  key={page}
+                  onClick={handleCloseNavMenu}
+                  sx={{ my: 2, color: 'white', display: 'block' }}
+                >
+                  <Link style={{ textDecoration: 'none' }} to={`/${page}`} />
+                </Button>
+              ))}
+            </Box>
+
+            <Box sx={{ flexGrow: 0 }}>
+              <Tooltip title="Open settings">
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                </IconButton>
+              </Tooltip>
+              <Menu
+                sx={{ mt: '45px' }}
+                id="menu-appbar"
+                anchorEl={anchorElUser}
                 anchorOrigin={{
                   vertical: 'top',
                   horizontal: 'right',
@@ -83,18 +132,37 @@ export default function Header() {
                   vertical: 'top',
                   horizontal: 'right',
                 }}
-                open={Boolean(anchorEl)}
-                onClose={handleClose}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
               >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>My account</MenuItem>
+                {settings.map((setting) => (
+                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                    <Typography textAlign="center">
+                      <Link style={{ textDecoration: 'none' }} to={`/${setting}`}>
+                        {setting}
+                      </Link>
+                    </Typography>
+                  </MenuItem>
+                ))}
               </Menu>
-            </div>
-            )}
-          </Toolbar>
-        </AppBar>
-      </Box>
+            </Box>
 
+            <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}>
+              {settings.map((setting) => (
+                <Button
+                  key={setting}
+                  onClick={handleCloseUserMenu}
+                  sx={{ my: 2, color: 'white', display: 'block' }}
+                >
+                  <Link style={{ textDecoration: 'none' }} to={`/${setting}`} />
+                </Button>
+              ))}
+            </Box>
+          </Toolbar>
+        </Container>
+      </AppBar>
     </div>
   )
 }
+
+export default Header
