@@ -13,6 +13,7 @@ import TextField from '@mui/material/TextField'
 import {
   Grid, Paper, Avatar, Link, Typography,
 } from '@mui/material'
+import { useNavigate, useLocation, Link as LnkRouter } from 'react-router-dom'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import Checkbox from '@mui/material/Checkbox'
@@ -22,10 +23,17 @@ import axios from 'axios'
 
 import './Login.css'
 // import AuthContext from '../../context/AuthProvider'
+import useAuth from '../../hooks/useAuth'
 
 export default function Login() {
   // const { setAuth } = useContext(AuthContext);
+  // const { setAuth } = useAuth()
   const [auth, setAuth] = useState({})
+
+  const navigate = useNavigate()
+  const location = useLocation()
+  // const from = location.state?.from?.pathname || '/'
+
   const userRef = useRef<HTMLInputElement>(null)
   const errRef = useRef<HTMLInputElement>(null)
 
@@ -56,12 +64,14 @@ export default function Login() {
       console.log(response)
       const accessToken = response?.data?.accessToken
       const roles = response?.data?.roles
-      console.log(roles)
-      console.log(accessToken)
 
       setUser('')
+      // setAuth({
+      //   user, pwd, roles, accessToken,
+      // })
       setPwd('')
-      setSuccess(true)
+      //  setSuccess(true)
+      // navigate(from, { replace: true })
     } catch (err) {
       console.log(err)
     }

@@ -13,6 +13,7 @@ import About from './Components/About/About'
 import Login from './Components/Login/Login'
 import Header from './Components/Header/Header'
 import Register from './Components/Register/Register'
+import RequireAuth from './Components/RequireAuth/RequireAuth'
 
 import './App.css'
 
@@ -30,11 +31,17 @@ function App() {
           <Link to="/login">Login</Link>
         </nav> */}
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/map" element={<Map />} />
-          <Route path="/about" element={<About />} />
+          {/* public routes */}
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/" element={<Dashboard />} />
+
+          {/* protected routes */}
+          <Route element={<RequireAuth />}>
+            <Route path="/map" element={<Map />} />
+            <Route path="/about" element={<About />} />
+          </Route>
+
         </Routes>
       </BrowserRouter>
 
