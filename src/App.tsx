@@ -12,6 +12,7 @@ import Home from './Components/Home/Home'
 import About from './Components/About/About'
 import Login from './Components/Login/Login'
 import Header from './Components/Header/Header'
+import Register from './Components/Register/Register'
 
 import './App.css'
 
@@ -33,6 +34,7 @@ function App() {
           <Route path="/map" element={<Map />} />
           <Route path="/about" element={<About />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
         </Routes>
       </BrowserRouter>
 
