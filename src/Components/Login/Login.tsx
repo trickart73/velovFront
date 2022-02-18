@@ -36,6 +36,17 @@ export default function Login() {
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
 
+  const getCurrentUser = () => JSON.parse(localStorage.getItem('user') || '{}')
+  const currentUser = getCurrentUser()
+  const [isLogIn, setIsLogIn] = useState(false)
+  console.log('isLogIn', isLogIn)
+
+  if (currentUser.accessToken !== undefined && isLogIn === false) {
+    console.log(currentUser.accessToken)
+    setIsLogIn(true)
+    console.log('isLogIn', isLogIn)
+  }
+
   // const [user, setUser] = useState('')
   // const [pwd, setPwd] = useState('')
 
@@ -65,7 +76,7 @@ export default function Login() {
 
       setPwd('')
       setSuccess(true)
-      // navigate(from, { replace: true })
+      setIsLogIn(true)
     } catch (err) {
       console.log(err)
     }
@@ -110,7 +121,9 @@ export default function Login() {
   }
 
   useEffect(() => {
-    userRef.current!.focus()
+    if (userRef.current !== null) {
+      userRef.current!.focus()
+    }
   }, [])
 
   useEffect(() => {
@@ -119,7 +132,7 @@ export default function Login() {
 
   return (
     <div className="login">
-      {success ? (
+      {isLogIn ? (
         <section>
           <h1>You are logged in!</h1>
           <br />
