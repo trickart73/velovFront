@@ -64,22 +64,27 @@ export default function Login() {
       password: pwd,
     }
 
-    try {
-      const response = await axios.post('http://192.168.1.168:8080/api/auth/signin', data) // keyrus : 10.8.96.114 //morel : 192.168.1.168
-      console.log(response)
-      const accessToken = response?.data?.accessToken
-      const roles = response?.data?.roles
-      // console.log(accessToken)
-      localStorage.setItem('user', JSON.stringify(response.data))
+    await axios.post('http://192.168.1.168:8080/api/auth/signin', data)
+      .then((response) => {
+        const accessToken = response?.data?.accessToken
+        const roles = response?.data?.roles
+        localStorage.setItem('user', JSON.stringify(response.data))
+        setUser('')
+        setPwd('')
+        setSuccess(true)
+        setIsLogIn(true)
+      })
+      .catch((error) => {
+        console.log(error.response)
+      }) // keyrus : 10.8.96.114 //morel : 192.168.1.168
+    // console.log('test')
+    // console.log('response', response)
 
-      setUser('')
-
-      setPwd('')
-      setSuccess(true)
-      setIsLogIn(true)
-    } catch (err) {
-      console.log(err)
-    }
+    // console.log('data:', response.data)
+    // const accessToken = response?.data?.accessToken
+    // const roles = response?.data?.roles
+    // console.log(accessToken)
+    // localStorage.setItem('user', JSON.stringify(response.data))
   }
 
   const handleChangeUsername = (event:any) => {

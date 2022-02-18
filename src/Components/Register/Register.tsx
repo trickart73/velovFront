@@ -46,7 +46,8 @@ export default function Register() {
   const [validMail, setValidMail] = useState(false)
   const [mailFocus, setMailFocus] = useState(false)
 
-  const [roles, setRoles] = useState('')
+  //   const [roles, setRoles] = useState('')
+  const [roles, setRoles] = useState<Array<string>>([])
   const [rolesIsOk, setRolesIsOk] = useState(false)
 
   const [adminIsChecked, setAdminIsChecked] = useState(false)
@@ -56,19 +57,24 @@ export default function Register() {
   const [errMsg, setErrMsg] = useState('')
   const [success, setSuccess] = useState(false)
 
-  //   const transformCheckboxIntoRoles = () => {
-  //     setRoles([...roles, {'admin'}])
-  //     if (adminIsChecked) {
-  //       roles.push('admin')
-  //     }
-  //     if (userIsChecked) {
-  //       roles.push('user')
-  //     }
-  //     if (moderatorIsChecked) {
-  //       roles.push('moderator')
-  //     }
-  //     console.log(roles)
-  //   }
+  const transformCheckboxIntoRoles = () => {
+    if (adminIsChecked) {
+      if (!roles.includes('admin')) {
+        setRoles((oldRoles) => [...oldRoles, 'admin'])
+      }
+    }
+    if (moderatorIsChecked) {
+      if (!roles.includes('moderator')) {
+        setRoles((oldRoles) => [...oldRoles, 'moderator'])
+      }
+    }
+    if (userIsChecked) {
+      if (!roles.includes('user')) {
+        setRoles((oldRoles) => [...oldRoles, 'user'])
+      }
+    }
+  }
+  console.log(roles)
 
   const handleSubmit = async (e:any) => {
     e.preventDefault()
@@ -76,30 +82,32 @@ export default function Register() {
     const v2 = PWD_REGEX.test(pwd)
     const v3 = MAIL_REGEX.test(mail)
 
-    if (!v1 || !v2 || !v3 || roles === '') {
-      console.log('rolesIsOk', rolesIsOk)
+    if (!v1 || !v2 || !v3) {
+    //   console.log('rolesIsOk', rolesIsOk)
       setErrMsg('Invalid Entry')
       return
     }
-    // transformCheckboxIntoRoles()
+
+    transformCheckboxIntoRoles()
+    console.log(roles)
     const data = {
       username: user,
       email: mail,
       password: pwd,
-      roles: [roles],
+      roles,
     }
 
-    try {
-      const response = await axios.post('http://192.168.1.168:8080/api/auth/signup', data) // keyrus : 10.8.96.114 //morel : 192.168.1.168
-      console.log(response)
-
-      setUser('')
-      setPwd('')
-      setMail('')
-      setSuccess(true)
-    } catch (err) {
-      console.log(err)
-    }
+    await axios.post('http://192.168.1.168:8080/api/auth/signup', data)
+      .then((response) => {
+        console.log(response)
+        setUser('')
+        setPwd('')
+        setMail('')
+        setSuccess(true)
+      })
+      .catch((error) => {
+        console.log(error.response)
+      })
   }
 
   const handleChangeUsername = (event:any) => {
@@ -169,7 +177,10 @@ export default function Register() {
     <div className="login">
       {success ? (
         <section>
-          <h1>You are register ! Welcome</h1>
+          <h1>Bienvenue sur cette application </h1>
+          <h1>Vous êtes bien enregistré !</h1>
+          <br />
+          <h1>Merci de vous connecter pour confirmer votre identité </h1>
           <br />
         </section>
       ) : (
@@ -261,20 +272,10 @@ export default function Register() {
               <br />
               Doit contenir @keyrus.com.
             </p>
-            <TextField
-              onChange={handleChangeRoles}
-              value={roles}
-              required
-              id="roles"
-              label="Role"
-              variant="standard"
-              placeholder="Entrer votre rôle"
-              fullWidth
-            />
             <FormControlLabel control={<Checkbox />} label="Moderator" onChange={handleChangeModeratorIsCheck} />
             <FormControlLabel control={<Checkbox />} label="User" onChange={handleChangeUserIsCheck} />
             <FormControlLabel control={<Checkbox />} label="Admin" onChange={handleChangeAdminIsCheck} />
-            <Button disabled={!!(!validName || !validPwd || !validMail || roles === '')} type="submit" color="primary" variant="contained" fullWidth style={btnStyle} onClick={handleSubmit}>Sign Up </Button>
+            <Button disabled={!!(!validName || !validPwd || !validMail)} type="submit" color="primary" variant="contained" fullWidth style={btnStyle} onClick={handleSubmit}>Sign Up </Button>
             <div>
               {userFocus}
               {user}

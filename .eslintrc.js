@@ -27,5 +27,6 @@ module.exports = {
     quotes: [2, 'single'],
     'react/jsx-filename-extension': [2, { extensions: ['.js', '.jsx', '.ts', '.tsx'] }],
     'no-console': 'off',
+    // 'prettier/prettier': ['error', { endOfLine: 'auto' }],
   },
 }
