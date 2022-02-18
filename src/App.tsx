@@ -8,7 +8,7 @@ import {
 import ReactDOM from 'react-dom'
 
 import Map from './Components/Map/Map'
-import Dashboard from './Components/Dashboard/Dashboard'
+import Home from './Components/Home/Home'
 import About from './Components/About/About'
 import Login from './Components/Login/Login'
 import Header from './Components/Header/Header'
@@ -29,7 +29,7 @@ function App() {
           <Link to="/login">Login</Link>
         </nav> */}
         <Routes>
-          <Route path="/" element={<Dashboard />} />
+          <Route path="/" element={<Home />} />
           <Route path="/map" element={<Map />} />
           <Route path="/about" element={<About />} />
           <Route path="/login" element={<Login />} />
