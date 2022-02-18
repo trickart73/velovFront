@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom'
 import ReactDOM from 'react-dom'
 
-import Map from './Components/Map/Map'
+import Carte from './Components/Carte/Carte'
 import Home from './Components/Home/Home'
 import About from './Components/About/About'
 import Login from './Components/Login/Login'
@@ -39,7 +39,7 @@ function App() {
           <Route path="/profile" element={<Profile />} />
 
           {/* protected routes */}
-          <Route path="/map" element={<Map />} />
+          <Route path="/map" element={<Carte />} />
           <Route path="/about" element={<About />} />
 
           <Route path="/admin" element={<Admin />} />

@@ -12,7 +12,7 @@ import {
   Grid, Paper, Avatar, Link, Typography,
 } from '@mui/material'
 
-import './Map.css'
+import './Carte.css'
 import velovData from '../../data/lastUpdateVelov.json'
 
 export default function Map() {
@@ -69,6 +69,7 @@ export default function Map() {
         </section>
       ) : (
         <Box
+          sx={{ m: 7 }}
           display="flex"
           justifyContent="center"
           alignItems="center"
