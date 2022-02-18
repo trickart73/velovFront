@@ -84,7 +84,7 @@ export default function Register() {
     }
 
     try {
-      const response = await axios.post('http://10.8.96.114:8080/api/auth/signup', data) // keyrus : 10.8.96.114 //morel : 192.168.1.168
+      const response = await axios.post('http://192.168.1.168:8080/api/auth/signup', data) // keyrus : 10.8.96.114 //morel : 192.168.1.168
       console.log(response)
 
       setUser('')

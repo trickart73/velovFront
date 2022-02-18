@@ -13,7 +13,7 @@ import About from './Components/About/About'
 import Login from './Components/Login/Login'
 import Header from './Components/Header/Header'
 import Register from './Components/Register/Register'
-import RequireAuth from './Components/RequireAuth/RequireAuth'
+import Profile from './Components/Profile/Profile'
 
 import './App.css'
 
@@ -37,10 +37,9 @@ function App() {
           <Route path="/" element={<Dashboard />} />
 
           {/* protected routes */}
-          <Route element={<RequireAuth />}>
-            <Route path="/map" element={<Map />} />
-            <Route path="/about" element={<About />} />
-          </Route>
+          <Route path="/map" element={<Map />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/profile" element={<Profile />} />
 
         </Routes>
       </BrowserRouter>

@@ -7,7 +7,6 @@ import React, {
 } from 'react'
 import { faCheck, faTimes, faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-// import ReactDOM from 'react-dom'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 import {
@@ -22,18 +21,8 @@ import 'typeface-roboto'
 import axios from 'axios'
 
 import './Login.css'
-// import AuthContext from '../../context/AuthProvider'
-import useAuth from '../../hooks/useAuth'
 
 export default function Login() {
-  // const { setAuth } = useContext(AuthContext);
-  // const { setAuth } = useAuth()
-  const [auth, setAuth] = useState({})
-
-  const navigate = useNavigate()
-  const location = useLocation()
-  // const from = location.state?.from?.pathname || '/'
-
   const userRef = useRef<HTMLInputElement>(null)
   const errRef = useRef<HTMLInputElement>(null)
 
@@ -41,6 +30,11 @@ export default function Login() {
   const [pwd, setPwd] = useState('')
   const [errMsg, setErrMsg] = useState('')
   const [success, setSuccess] = useState(false)
+
+  const form = useRef()
+  const checkBtn = useRef()
+  const [loading, setLoading] = useState(false)
+  const [message, setMessage] = useState('')
 
   // const [user, setUser] = useState('')
   // const [pwd, setPwd] = useState('')
@@ -60,17 +54,17 @@ export default function Login() {
     }
 
     try {
-      const response = await axios.post('http://10.8.96.114:8080/api/auth/signin', data) // keyrus : 10.8.96.114 //morel : 192.168.1.168
+      const response = await axios.post('http://192.168.1.168:8080/api/auth/signin', data) // keyrus : 10.8.96.114 //morel : 192.168.1.168
       console.log(response)
       const accessToken = response?.data?.accessToken
       const roles = response?.data?.roles
+      // console.log(accessToken)
+      localStorage.setItem('user', JSON.stringify(response.data))
 
       setUser('')
-      // setAuth({
-      //   user, pwd, roles, accessToken,
-      // })
+
       setPwd('')
-      //  setSuccess(true)
+      setSuccess(true)
       // navigate(from, { replace: true })
     } catch (err) {
       console.log(err)
@@ -84,7 +78,8 @@ export default function Login() {
     }
     axios.post('http://10.8.96.114:8080/api/auth/signin', data) // keyrus : 10.8.96.114 //morel : 192.168.1.168
       .then((response) => {
-        console.log(response)
+        console.log(response.data)
+        localStorage.setItem('user', JSON.stringify(response.data))
       })
       .catch((error) => {
         console.log(error.response.data)
