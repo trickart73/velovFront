@@ -164,7 +164,7 @@ export default function Login() {
             </Typography>
             <Typography>
               Do you have an account ?
-              <Link href="#">
+              <Link href="/register">
                 Sign up
               </Link>
             </Typography>

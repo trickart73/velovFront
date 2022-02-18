@@ -22,7 +22,7 @@ import axios from 'axios'
 import './Register.css'
 
 export default function Register() {
-  const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/
+  const USER_REGEX = /^[A-z][A-z0-9-_.]{3,23}$/
   const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/
   const MAIL_REGEX = /^[^@]+@keyrus.com$$/
   //   const MAIL_REGEX = /^[^@]+@.+\.\w{2,3}$$/
@@ -33,6 +33,7 @@ export default function Register() {
   const errRef = useRef<HTMLInputElement>(null)
 
   const [user, setUser] = useState('')
+  const [usernameTaken, setUsernameTaken] = useState(false)
   const [validName, setValidName] = useState(false)
   const [userFocus, setUserFocus] = useState(false)
 
@@ -41,10 +42,12 @@ export default function Register() {
   const [pwdFocus, setPwdFocus] = useState(false)
 
   const [mail, setMail] = useState('')
+  const [mailTaken, setMailTaken] = useState(false)
   const [validMail, setValidMail] = useState(false)
   const [mailFocus, setMailFocus] = useState(false)
 
   const [roles, setRoles] = useState('')
+  const [rolesIsOk, setRolesIsOk] = useState(false)
 
   const [adminIsChecked, setAdminIsChecked] = useState(false)
   const [userIsChecked, setUserIsChecked] = useState(false)
@@ -71,7 +74,10 @@ export default function Register() {
     e.preventDefault()
     const v1 = USER_REGEX.test(user)
     const v2 = PWD_REGEX.test(pwd)
-    if (!v1 || !v2) {
+    const v3 = MAIL_REGEX.test(mail)
+
+    if (!v1 || !v2 || !v3 || roles === '') {
+      console.log('rolesIsOk', rolesIsOk)
       setErrMsg('Invalid Entry')
       return
     }
@@ -195,11 +201,11 @@ export default function Register() {
 
             <p id="uidnote" className={userFocus && user && !validName ? 'instructions' : 'offscreen'}>
               <FontAwesomeIcon icon={faInfoCircle} />
-              4 to 24 characters.
+              Entre 4 et 24 caractères.
               <br />
-              Must begin with a letter.
+              Doit commencer avec une lettre.
               <br />
-              Letters, numbers, underscores, hyphens allowed.
+              Lettres, nombres, underscore, tiret et point autorisés.
             </p>
             <TextField
               onChange={handleChangePassword}
@@ -218,11 +224,11 @@ export default function Register() {
             />
             <p id="pwdnote" className={pwdFocus && !validPwd ? 'instructions' : 'offscreen'}>
               <FontAwesomeIcon icon={faInfoCircle} />
-              8 to 24 characters.
+              Entre 8 et 24 caractères.
               <br />
-              Must include uppercase and lowercase letters, a number and a special character.
+              Doit inclure au moins une majuscule, une minuscule, un nombre et un caractère spécial.
               <br />
-              Allowed special characters:
+              Caractère spéciaux autorisés:
               {' '}
               <span aria-label="exclamation mark">!</span>
               {' '}
@@ -251,7 +257,9 @@ export default function Register() {
             <p id="mailnote" className={mailFocus && mail && !validMail ? 'instructions' : 'offscreen'}>
               <FontAwesomeIcon icon={faInfoCircle} />
               <br />
-              Must contains @keyrus.com
+              Doit commencer par un autre caractère que @.
+              <br />
+              Doit contenir @keyrus.com.
             </p>
             <TextField
               onChange={handleChangeRoles}
@@ -266,7 +274,7 @@ export default function Register() {
             <FormControlLabel control={<Checkbox />} label="Moderator" onChange={handleChangeModeratorIsCheck} />
             <FormControlLabel control={<Checkbox />} label="User" onChange={handleChangeUserIsCheck} />
             <FormControlLabel control={<Checkbox />} label="Admin" onChange={handleChangeAdminIsCheck} />
-            <Button disabled={!!(!validName || !validPwd || !validMail)} type="submit" color="primary" variant="contained" fullWidth style={btnStyle} onClick={handleSubmit}>Sign Up </Button>
+            <Button disabled={!!(!validName || !validPwd || !validMail || roles === '')} type="submit" color="primary" variant="contained" fullWidth style={btnStyle} onClick={handleSubmit}>Sign Up </Button>
             <div>
               {userFocus}
               {user}
