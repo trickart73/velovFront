@@ -82,21 +82,6 @@ export default function Login() {
     }
   }
 
-  const login = () => {
-    const data = {
-      username: user,
-      password: pwd,
-    }
-    axios.post('http://10.8.96.114:8080/api/auth/signin', data) // keyrus : 10.8.96.114 //morel : 192.168.1.168
-      .then((response) => {
-        console.log(response.data)
-        localStorage.setItem('user', JSON.stringify(response.data))
-      })
-      .catch((error) => {
-        console.log(error.response.data)
-      })
-  }
-
   const handleChangeUsername = (event:any) => {
     setUser(event.target.value)
   }

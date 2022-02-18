@@ -14,6 +14,7 @@ import Login from './Components/Login/Login'
 import Header from './Components/Header/Header'
 import Register from './Components/Register/Register'
 import Profile from './Components/Profile/Profile'
+import Admin from './Components/Admin/Admin'
 
 import './App.css'
 
@@ -35,11 +36,13 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/" element={<Dashboard />} />
+          <Route path="/profile" element={<Profile />} />
 
           {/* protected routes */}
           <Route path="/map" element={<Map />} />
           <Route path="/about" element={<About />} />
-          <Route path="/profile" element={<Profile />} />
+
+          <Route path="/admin" element={<Admin />} />
 
         </Routes>
       </BrowserRouter>

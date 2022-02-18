@@ -18,87 +18,102 @@ import velovData from '../../data/lastUpdateVelov.json'
 function Map() {
   const latCenterMap = 45.764043
   const longCenterMap = 4.835659
-  const [data, setData] = useState([]) // init
+  const [data, setData] = useState([])
   const [dataActualiseButtonIsClicked, setStationIsClicked] = useState(false)
 
   const btnStyle = {
     margin: '8px 0',
   }
 
-  const handleClick = () => {
-    console.log('stationIsClicked', dataActualiseButtonIsClicked)
-    setStationIsClicked(!dataActualiseButtonIsClicked)
-  }
+  const getCurrentUser = () => JSON.parse(localStorage.getItem('user') || '{}')
+  const currentUser = getCurrentUser()
+  const [isLogIn, setIsLogIn] = useState(false)
 
-  const stationUpdateGrandLyonURL = 'https://download.data.grandlyon.com/wfs/rdata?SERVICE=WFS&VERSION=2.0.0&outputformat=GEOJSON&request=GetFeature&typename=jcd_jcdecaux.jcdvelov&SRSNAME=urn:ogc:def:crs:EPSG::4171'
-  // const stationInfoURL = 'https://transport.data.gouv.fr/gbfs/lyon/station_information.json'
+  if (currentUser.accessToken !== undefined && isLogIn === false) {
+    setIsLogIn(true)
 
-  const loadJSON = async () => {
-    const fetchData = await fetch(stationUpdateGrandLyonURL)
-    const responseData = await fetchData.json()
-    setData(responseData)
-  }
-
-  useEffect(() => {
-    setInterval(() => {
-      loadJSON()
-    //   console.log('data loaded')
-    }, 30000) // tous les foutre à la fin
-  }, [])
-
-  useEffect(() => {
-    loadJSON()
-  }, [dataActualiseButtonIsClicked])
-
-  useEffect(() => {
-    if (Object.keys(data).length < 0) {
-      console.log('no data is charged')
+    const handleClick = () => {
+      console.log('stationIsClicked', dataActualiseButtonIsClicked)
+      setStationIsClicked(!dataActualiseButtonIsClicked)
     }
-  }, [data])
 
-  return (
-    <div className="Map">
-      <Button type="button" color="primary" variant="contained" style={btnStyle} onClick={handleClick}>Actualiser données </Button>
+    const stationUpdateGrandLyonURL = 'https://download.data.grandlyon.com/wfs/rdata?SERVICE=WFS&VERSION=2.0.0&outputformat=GEOJSON&request=GetFeature&typename=jcd_jcdecaux.jcdvelov&SRSNAME=urn:ogc:def:crs:EPSG::4171'
+    // const stationInfoURL = 'https://transport.data.gouv.fr/gbfs/lyon/station_information.json'
 
-      <Box
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-      >
+    const loadJSON = async () => {
+      const fetchData = await fetch(stationUpdateGrandLyonURL)
+      const responseData = await fetchData.json()
+      setData(responseData)
+    }
 
-        <MapContainer center={[latCenterMap, longCenterMap]} zoom={15}>
+    useEffect(() => {
+      setInterval(() => {
+        loadJSON()
+        //   console.log('data loaded')
+      }, 30000) // tous les foutre à la fin
+    }, [])
 
-          <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          />
+    useEffect(() => {
+      loadJSON()
+    }, [dataActualiseButtonIsClicked])
 
-          {R.pathOr(velovData.features, ['features'], data).map((vlov) => (
+    useEffect(() => {
+      if (Object.keys(data).length < 0) {
+        console.log('no data is charged')
+      }
+    }, [data])
 
-            <Marker
-              position={[vlov.geometry.coordinates[1], vlov.geometry.coordinates[0]]}
-            >
+    return (
+      <div className="Map">
+        <Button type="button" color="primary" variant="contained" style={btnStyle} onClick={handleClick}>Actualiser données </Button>
 
-              <Popup position={[vlov.geometry.coordinates[1], vlov.geometry.coordinates[0]]}>
-                <div>
-                  <h3>{`Station ${vlov.properties.name}`}</h3>
-                  <p>{`Last update: ${vlov.properties.last_update}`}</p>
-                  <p>{`Available_bikes: ${vlov.properties.available_bikes}`}</p>
-                  <p>{`Available_bike_stands: ${vlov.properties.available_bike_stands}`}</p>
-                </div>
+        { !isLogIn ? (
+          <section>
+            <h1>You are not logged in!</h1>
+            <br />
+          </section>
+        ) : (
+          <Box
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+          >
 
-              </Popup>
+            <MapContainer center={[latCenterMap, longCenterMap]} zoom={15}>
 
-            </Marker>
+              <TileLayer
+                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              />
 
-          ))}
+              {R.pathOr(velovData.features, ['features'], data).map((vlov) => (
 
-        </MapContainer>
+                <Marker
+                  position={[vlov.geometry.coordinates[1], vlov.geometry.coordinates[0]]}
+                >
 
-      </Box>
+                  <Popup position={[vlov.geometry.coordinates[1], vlov.geometry.coordinates[0]]}>
+                    <div>
+                      <h3>{`Station ${vlov.properties.name}`}</h3>
+                      <p>{`Last update: ${vlov.properties.last_update}`}</p>
+                      <p>{`Available_bikes: ${vlov.properties.available_bikes}`}</p>
+                      <p>{`Available_bike_stands: ${vlov.properties.available_bike_stands}`}</p>
+                    </div>
 
-    </div>
-  )
+                  </Popup>
+
+                </Marker>
+
+              ))}
+
+            </MapContainer>
+
+          </Box>
+        )}
+
+      </div>
+    )
+  }
 }
 
 export default Map
