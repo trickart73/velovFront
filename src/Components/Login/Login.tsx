@@ -35,27 +35,32 @@ export default function Login() {
   const checkBtn = useRef()
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
+  const [disableSubmit, setDisableSubmit] = useState(true)
 
   const getCurrentUser = () => JSON.parse(localStorage.getItem('user') || '{}')
   const currentUser = getCurrentUser()
   const [isLogIn, setIsLogIn] = useState(false)
-  console.log('isLogIn', isLogIn)
+  // console.log('isLogIn', isLogIn)
 
   if (currentUser.accessToken !== undefined && isLogIn === false) {
-    console.log(currentUser.accessToken)
+    // console.log(currentUser.accessToken)
     setIsLogIn(true)
-    console.log('isLogIn', isLogIn)
+    // console.log('isLogIn', isLogIn)
   }
 
-  // const [user, setUser] = useState('')
-  // const [pwd, setPwd] = useState('')
+  if (pwd === '' || user === '') {
+    if (!disableSubmit) {
+      console.log(disableSubmit)
+      setDisableSubmit(true)
+    }
+  }
 
-  // const getAxios = () => {
-  //   axios.get('http://192.168.1.168:8080/')
-  //     .then((response) => {
-  //       console.log(response)
-  //     })
-  // }
+  if (pwd !== '' && user !== '') {
+    if (disableSubmit) {
+      console.log(disableSubmit)
+      setDisableSubmit(false)
+    }
+  }
 
   const handleSubmit = async (e:any) => {
     e.preventDefault()
@@ -76,15 +81,8 @@ export default function Login() {
       })
       .catch((error) => {
         console.log(error.response)
+        setErrMsg(error.response.data.message)
       }) // keyrus : 10.8.96.114 //morel : 192.168.1.168
-    // console.log('test')
-    // console.log('response', response)
-
-    // console.log('data:', response.data)
-    // const accessToken = response?.data?.accessToken
-    // const roles = response?.data?.roles
-    // console.log(accessToken)
-    // localStorage.setItem('user', JSON.stringify(response.data))
   }
 
   const handleChangeUsername = (event:any) => {
@@ -107,7 +105,7 @@ export default function Login() {
   }
 
   const btnStyle = {
-    margin: '8px 0',
+    margin: '20px 0',
   }
 
   useEffect(() => {
@@ -160,24 +158,32 @@ export default function Login() {
               placeholder="Entrer le mot de passe"
               fullWidth
             />
-            <FormControlLabel control={<Checkbox />} label="Se rappeler de moi" />
-            <Button type="submit" color="primary" variant="contained" fullWidth style={btnStyle} onClick={handleSubmit}>Sign In </Button>
-            <Typography>
+            {/* <FormControlLabel control={<Checkbox />} label="Se rappeler de moi" /> */}
+            <Button
+              disabled={disableSubmit}
+              type="submit"
+              color="primary"
+              variant="contained"
+              fullWidth
+              style={btnStyle}
+              onClick={handleSubmit}
+            >
+              Sign In
+              {' '}
+
+            </Button>
+            {/* <Typography>
               <Link href="#">
                 Forgot password ?
               </Link>
-            </Typography>
+            </Typography> */}
             <Typography>
-              Do you have an account ?
+              Vous voulez créer un compte ?
               <Link href="/register">
+                <br />
                 Sign up
               </Link>
             </Typography>
-
-            <div>
-              {user}
-              {pwd}
-            </div>
 
           </Paper>
         </Grid>

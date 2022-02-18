@@ -1,16 +1,17 @@
 import React, { useState } from 'react'
 import Button from '@mui/material/Button'
+import { Link } from 'react-router-dom'
 
 function Profile() {
   const getCurrentUser = () => JSON.parse(localStorage.getItem('user') || '{}')
   const currentUser = getCurrentUser()
   const [isLogIn, setIsLogIn] = useState(false)
-  console.log(isLogIn)
+  //   console.log(isLogIn)
 
   if (currentUser.accessToken !== undefined && isLogIn === false) {
-    console.log(currentUser.accessToken)
+    // console.log(currentUser.accessToken)
     setIsLogIn(true)
-    console.log(isLogIn)
+    // console.log(isLogIn)
   }
 
   const btnStyle = {
@@ -18,9 +19,9 @@ function Profile() {
   }
 
   const logout = () => {
-    console.log('logout')
+    // console.log('logout')
     localStorage.removeItem('user')
-    window.location.reload()
+    // window.location.reload()
   }
 
   return (
@@ -60,7 +61,19 @@ function Profile() {
             {' '}
             {currentUser.roles}
           </p>
-          <Button type="submit" color="primary" variant="contained" style={btnStyle} onClick={logout}>Log out </Button>
+          <Button
+            type="submit"
+            color="primary"
+            variant="contained"
+            style={btnStyle}
+            onClick={logout}
+            component={Link}
+            to="/login"
+          >
+            Log out
+            {' '}
+
+          </Button>
         </div>
       ) }
 

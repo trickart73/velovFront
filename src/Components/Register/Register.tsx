@@ -74,7 +74,18 @@ export default function Register() {
       }
     }
   }
-  console.log(roles)
+
+  if (adminIsChecked || moderatorIsChecked || userIsChecked) {
+    if (!rolesIsOk) {
+      setRolesIsOk(true)
+    }
+  }
+
+  if (!adminIsChecked && !moderatorIsChecked && !userIsChecked) {
+    if (rolesIsOk) {
+      setRolesIsOk(false)
+    }
+  }
 
   const handleSubmit = async (e:any) => {
     e.preventDefault()
@@ -82,14 +93,7 @@ export default function Register() {
     const v2 = PWD_REGEX.test(pwd)
     const v3 = MAIL_REGEX.test(mail)
 
-    if (!v1 || !v2 || !v3) {
-    //   console.log('rolesIsOk', rolesIsOk)
-      setErrMsg('Invalid Entry')
-      return
-    }
-
     transformCheckboxIntoRoles()
-    console.log(roles)
     const data = {
       username: user,
       email: mail,
@@ -107,6 +111,7 @@ export default function Register() {
       })
       .catch((error) => {
         console.log(error.response)
+        setErrMsg(error.response.data.message)
       })
   }
 
@@ -275,7 +280,7 @@ export default function Register() {
             <FormControlLabel control={<Checkbox />} label="Moderator" onChange={handleChangeModeratorIsCheck} />
             <FormControlLabel control={<Checkbox />} label="User" onChange={handleChangeUserIsCheck} />
             <FormControlLabel control={<Checkbox />} label="Admin" onChange={handleChangeAdminIsCheck} />
-            <Button disabled={!!(!validName || !validPwd || !validMail)} type="submit" color="primary" variant="contained" fullWidth style={btnStyle} onClick={handleSubmit}>Sign Up </Button>
+            <Button disabled={!!(!validName || !validPwd || !validMail || !rolesIsOk)} type="submit" color="primary" variant="contained" fullWidth style={btnStyle} onClick={handleSubmit}>Sign Up </Button>
             <div>
               {userFocus}
               {user}
