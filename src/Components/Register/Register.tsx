@@ -47,7 +47,8 @@ export default function Register() {
   const [mailFocus, setMailFocus] = useState(false)
 
   //   const [roles, setRoles] = useState('')
-  const [roles, setRoles] = useState<Array<string>>([])
+  const [roles, setRoles] = useState<string[]>([])
+  // const [roles, setRoles] = useState([])
   const [rolesIsOk, setRolesIsOk] = useState(false)
 
   const [adminIsChecked, setAdminIsChecked] = useState(false)
@@ -57,23 +58,72 @@ export default function Register() {
   const [errMsg, setErrMsg] = useState('')
   const [success, setSuccess] = useState(false)
 
-  const transformCheckboxIntoRoles = () => {
-    if (adminIsChecked) {
-      if (!roles.includes('admin')) {
-        setRoles((oldRoles) => [...oldRoles, 'admin'])
-      }
-    }
-    if (moderatorIsChecked) {
-      if (!roles.includes('moderator')) {
-        setRoles((oldRoles) => [...oldRoles, 'moderator'])
-      }
-    }
-    if (userIsChecked) {
-      if (!roles.includes('user')) {
-        setRoles((oldRoles) => [...oldRoles, 'user'])
-      }
+  // console.log('roles', roles)
+
+  if (adminIsChecked) {
+    if (!roles.includes('admin')) {
+      setRoles((oldRoles) => [...oldRoles, 'admin'])
     }
   }
+
+  if (!adminIsChecked) {
+    if (roles.includes('admin')) {
+      setRoles((oldRoles) => oldRoles.filter((_, i) => _ !== 'admin'))
+    }
+  }
+
+  if (moderatorIsChecked) {
+    if (!roles.includes('moderator')) {
+      setRoles((currentRoles) => [...currentRoles, 'moderator'])
+    }
+  }
+
+  if (!moderatorIsChecked) {
+    if (roles.includes('moderator')) {
+      setRoles((oldRoles) => oldRoles.filter((_, i) => _ !== 'moderator'))
+    }
+  }
+
+  if (userIsChecked) {
+    if (!roles.includes('user')) {
+      setRoles((oldRoles) => [...oldRoles, 'user'])
+    }
+  }
+
+  if (!userIsChecked) {
+    if (roles.includes('user')) {
+      setRoles((oldRoles) => oldRoles.filter((_, i) => _ !== 'user'))
+    }
+  }
+
+  // const transformCheckboxIntoRoles = () => {
+  //   console.log('adminIsChecked', adminIsChecked)
+  //   console.log('moderatorIsChecked', moderatorIsChecked)
+  //   console.log('userIsChecked', userIsChecked)
+  //   console.log('roles before', roles)
+  //   if (adminIsChecked) {
+  //     console.log('in adminIsChecked')
+  //     if (!roles.includes('admin')) {
+  //       setRoles((oldRoles) => [...oldRoles, 'admin'])
+  //       console.log('i set the role admin')
+  //     }
+  //   }
+  //   if (moderatorIsChecked) {
+  //     console.log('in moderatorIsChecked')
+  //     if (!roles.includes('moderator')) {
+  //       setRoles((currentRoles) => [...currentRoles, 'moderator'])
+  //       console.log('i set the role moderator')
+  //     }
+  //   }
+  //   if (userIsChecked) {
+  //     console.log('in userIsChecked')
+  //     if (!roles.includes('user')) {
+  //       setRoles((oldRoles) => [...oldRoles, 'user'])
+  //       console.log('i set the role user')
+  //     }
+  //   }
+  //   console.log('roles after', roles)
+  // }
 
   if (adminIsChecked || moderatorIsChecked || userIsChecked) {
     if (!rolesIsOk) {
@@ -93,7 +143,7 @@ export default function Register() {
     const v2 = PWD_REGEX.test(pwd)
     const v3 = MAIL_REGEX.test(mail)
 
-    transformCheckboxIntoRoles()
+    console.log('submit', roles)
     const data = {
       username: user,
       email: mail,
@@ -113,6 +163,8 @@ export default function Register() {
         console.log(error.response)
         setErrMsg(error.response.data.message)
       })
+
+    localStorage.removeItem('user')
   }
 
   const handleChangeUsername = (event:any) => {
