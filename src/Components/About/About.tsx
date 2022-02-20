@@ -21,6 +21,7 @@ export default function About() {
     <div className="container">
       <header className="jumbotron">
         <h3>{content}</h3>
+        <h2> Cette application a été développé pour l'entreprise Keyrus.</h2>
       </header>
     </div>
   )

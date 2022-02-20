@@ -5,8 +5,6 @@
 import React, {
   useRef, useState, useEffect, useContext,
 } from 'react'
-import { faCheck, faTimes, faInfoCircle } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 import {
@@ -134,7 +132,7 @@ export default function Login() {
                 <LockOutlinedIcon />
               </Avatar>
             </Grid>
-            <h2> Sign In</h2>
+            <h2> Se connecter</h2>
             <TextField
               onChange={handleChangeUsername}
               value={user}
@@ -168,7 +166,7 @@ export default function Login() {
               style={btnStyle}
               onClick={handleSubmit}
             >
-              Sign In
+              Se connecter
               {' '}
 
             </Button>
@@ -181,7 +179,7 @@ export default function Login() {
               Vous voulez créer un compte ?
               <Link href="/register">
                 <br />
-                Sign up
+                S'enregistrer
               </Link>
             </Typography>
 

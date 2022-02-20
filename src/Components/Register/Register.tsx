@@ -249,7 +249,7 @@ export default function Register() {
                 <LockOpenIcon />
               </Avatar>
             </Grid>
-            <h2> Sign up</h2>
+            <h2> S'enregistrer</h2>
             <TextField
               onChange={handleChangeUsername}
               value={user}
@@ -329,10 +329,10 @@ export default function Register() {
               <br />
               Doit contenir @keyrus.com.
             </p>
-            <FormControlLabel control={<Checkbox />} label="Moderator" onChange={handleChangeModeratorIsCheck} />
-            <FormControlLabel control={<Checkbox />} label="User" onChange={handleChangeUserIsCheck} />
-            <FormControlLabel control={<Checkbox />} label="Admin" onChange={handleChangeAdminIsCheck} />
-            <Button disabled={!!(!validName || !validPwd || !validMail || !rolesIsOk)} type="submit" color="primary" variant="contained" fullWidth style={btnStyle} onClick={handleSubmit}>Sign Up </Button>
+            <FormControlLabel control={<Checkbox />} label="Modérateur" onChange={handleChangeModeratorIsCheck} />
+            <FormControlLabel control={<Checkbox />} label="Utilisateur" onChange={handleChangeUserIsCheck} />
+            <FormControlLabel control={<Checkbox />} label="Administrateur" onChange={handleChangeAdminIsCheck} />
+            <Button disabled={!!(!validName || !validPwd || !validMail || !rolesIsOk)} type="submit" color="primary" variant="contained" fullWidth style={btnStyle} onClick={handleSubmit}>S'enregistrer </Button>
             <div>
               {userFocus}
               {user}
