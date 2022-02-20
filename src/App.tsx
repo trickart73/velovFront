@@ -8,8 +8,8 @@ import {
 import ReactDOM from 'react-dom'
 
 import Carte from './Components/Carte/Carte'
-import Home from './Components/Home/Home'
-import About from './Components/About/About'
+import Accueil from './Components/Accueil/Accueil'
+import Informations from './Components/Informations/Informations'
 import Login from './Components/Login/Login'
 import Header from './Components/Header/Header'
 import Register from './Components/Register/Register'
@@ -35,15 +35,16 @@ function App() {
           {/* public routes */}
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/" element={<Home />} />
           <Route path="/profile" element={<Profile />} />
 
           {/* protected routes */}
-          <Route path="/map" element={<Carte />} />
-          <Route path="/about" element={<About />} />
 
           <Route path="/admin" element={<Admin />} />
 
+          <Route path="/" element={<Accueil />} />
+          <Route path="/carte" element={<Carte />} />
+          <Route path="/informations" element={<Informations />} />
+          <Route path="/login" element={<Login />} />
         </Routes>
       </BrowserRouter>
 

@@ -15,7 +15,7 @@ import Button from '@mui/material/Button'
 import Tooltip from '@mui/material/Tooltip'
 import MenuItem from '@mui/material/MenuItem'
 
-const pages = ['Carte', 'About', 'Admin']
+const pages = ['Carte', 'Informations', 'Admin']
 const settings = ['Login', 'Register', 'Profile']
 
 function Header() {
@@ -49,7 +49,7 @@ function Header() {
               sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
             >
               <Link style={{ textDecoration: 'none', color: 'white' }} to="/">
-                HOME
+                ACCUEIL
               </Link>
             </Typography>
 
@@ -100,7 +100,7 @@ function Header() {
               sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
             >
               <Link style={{ textDecoration: 'none', color: 'white' }} to="/">
-                HOME
+                ACCUEIL
               </Link>
             </Typography>
 
