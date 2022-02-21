@@ -1,21 +1,96 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable consistent-return */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React from 'react'
-// import ReactDOM from 'react-dom'
+import React, {
+  useRef, useState, useEffect, useContext,
+} from 'react'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 import {
   Grid, Paper, Avatar, Link, Typography,
 } from '@mui/material'
+import { useNavigate, useLocation, Link as LnkRouter } from 'react-router-dom'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import Checkbox from '@mui/material/Checkbox'
 import 'typeface-roboto'
 
+import axios from 'axios'
+
 import './Login.css'
 
 export default function Login() {
+  const userRef = useRef<HTMLInputElement>(null)
+  const errRef = useRef<HTMLInputElement>(null)
+
+  const [user, setUser] = useState('')
+  const [pwd, setPwd] = useState('')
+  const [errMsg, setErrMsg] = useState('')
+  const [success, setSuccess] = useState(false)
+
+  const form = useRef()
+  const checkBtn = useRef()
+  const [loading, setLoading] = useState(false)
+  const [message, setMessage] = useState('')
+  const [disableSubmit, setDisableSubmit] = useState(true)
+
+  const getCurrentUser = () => JSON.parse(localStorage.getItem('user') || '{}')
+  const currentUser = getCurrentUser()
+  const [isLogIn, setIsLogIn] = useState(false)
+  // console.log('isLogIn', isLogIn)
+
+  if (currentUser.accessToken !== undefined && isLogIn === false) {
+    // console.log(currentUser.accessToken)
+    setIsLogIn(true)
+    // console.log('isLogIn', isLogIn)
+  }
+
+  if (pwd === '' || user === '') {
+    if (!disableSubmit) {
+      console.log(disableSubmit)
+      setDisableSubmit(true)
+    }
+  }
+
+  if (pwd !== '' && user !== '') {
+    if (disableSubmit) {
+      console.log(disableSubmit)
+      setDisableSubmit(false)
+    }
+  }
+
+  const handleSubmit = async (e:any) => {
+    e.preventDefault()
+    const data = {
+      username: user,
+      password: pwd,
+    }
+
+    await axios.post('http://10.206.180.192:8080/api/auth/signin', data)
+      .then((response) => {
+        const accessToken = response?.data?.accessToken
+        const roles = response?.data?.roles
+        localStorage.setItem('user', JSON.stringify(response.data))
+        setUser('')
+        setPwd('')
+        setSuccess(true)
+        setIsLogIn(true)
+      })
+      .catch((error) => {
+        console.log(error.response)
+        setErrMsg(error.response.data.message)
+      }) // keyrus : 10.8.96.114 //morel : 192.168.1.168
+  }
+
+  const handleChangeUsername = (event:any) => {
+    setUser(event.target.value)
+  }
+
+  const handleChangePassword = (event:any) => {
+    setPwd(event.target.value)
+  }
+
   const paperStyleCenter = {
     padding: 20,
     height: '70vh',
@@ -28,37 +103,89 @@ export default function Login() {
   }
 
   const btnStyle = {
-    margin: '8px 0',
+    margin: '20px 0',
   }
+
+  useEffect(() => {
+    if (userRef.current !== null) {
+      userRef.current!.focus()
+    }
+  }, [])
+
+  useEffect(() => {
+    setErrMsg('')
+  }, [user, pwd])
 
   return (
     <div className="login">
-      <Grid>
-        <Paper elevation={10} style={paperStyleCenter}>
-          <Grid container justifyContent="center" alignItems="center">
-            <Avatar style={avatarStyle}>
-              <LockOutlinedIcon />
-            </Avatar>
-          </Grid>
-          <h2> Sign In</h2>
-          <TextField required id="username" label="Nom d'utilisateur" variant="standard" placeholder="Entrer le nom d'utilisateur" fullWidth />
-          <TextField required type="password" id="password" label="Mot de passe" variant="standard" placeholder="Entrer le mot de passe" fullWidth />
-          <FormControlLabel control={<Checkbox />} label="Se rappeler de moi" />
-          <Button type="submit" color="primary" variant="contained" fullWidth style={btnStyle}>Sign In </Button>
-          <Typography>
-            <Link href="#">
-              Forgot password ?
-            </Link>
-          </Typography>
-          <Typography>
-            Do you have an account ?
-            <Link href="#">
-              Sign up
-            </Link>
-          </Typography>
+      {isLogIn ? (
+        <section>
+          <h1>You are logged in!</h1>
+          <br />
+        </section>
+      ) : (
+        <Grid>
+          <h2 ref={errRef} className={errMsg ? 'errmsg' : 'offscreen'} aria-live="assertive">{errMsg}</h2>
+          <Paper elevation={10} style={paperStyleCenter}>
+            <Grid container justifyContent="center" alignItems="center">
+              <Avatar style={avatarStyle}>
+                <LockOutlinedIcon />
+              </Avatar>
+            </Grid>
+            <h2> Se connecter</h2>
+            <TextField
+              onChange={handleChangeUsername}
+              value={user}
+              required
+              ref={userRef}
+              autoComplete="off"
+              id="username"
+              label="Nom d'utilisateur"
+              variant="standard"
+              placeholder="Entrer le nom d'utilisateur"
+              fullWidth
+            />
+            <TextField
+              onChange={handleChangePassword}
+              value={pwd}
+              required
+              type="password"
+              id="password"
+              label="Mot de passe"
+              variant="standard"
+              placeholder="Entrer le mot de passe"
+              fullWidth
+            />
+            {/* <FormControlLabel control={<Checkbox />} label="Se rappeler de moi" /> */}
+            <Button
+              disabled={disableSubmit}
+              type="submit"
+              color="primary"
+              variant="contained"
+              fullWidth
+              style={btnStyle}
+              onClick={handleSubmit}
+            >
+              Se connecter
+              {' '}
 
-        </Paper>
-      </Grid>
+            </Button>
+            {/* <Typography>
+              <Link href="#">
+                Forgot password ?
+              </Link>
+            </Typography> */}
+            <Typography>
+              Vous voulez créer un compte ?
+              <Link href="/register">
+                <br />
+                S'enregistrer
+              </Link>
+            </Typography>
+
+          </Paper>
+        </Grid>
+      ) }
 
       {/* <form>
         <label>
@@ -78,6 +205,7 @@ export default function Login() {
           <Button variant="outlined">Créer un compte</Button>
         </div>
       </form> */}
+
     </div>
 
   )

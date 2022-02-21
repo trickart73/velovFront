@@ -15,8 +15,8 @@ import Button from '@mui/material/Button'
 import Tooltip from '@mui/material/Tooltip'
 import MenuItem from '@mui/material/MenuItem'
 
-const pages = ['Map', 'About']
-const settings = ['Login']
+const pages = ['Map', 'About', 'Admin']
+const settings = ['Login', 'Register', 'Profile']
 
 function Header() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null)
