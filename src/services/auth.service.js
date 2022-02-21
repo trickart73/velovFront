@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const API_URL = 'http://192.168.1.168:8080/api/auth' // 192.168.1.168 //keyrus : 10.8.96.114
+const API_URL = 'http://10.206.180.192:8080/api/auth' // 192.168.1.168 //keyrus : 10.8.96.114 10.206.180.192
 const register = (username, email, password) => axios.post(`${API_URL}signup`, {
   username,
   email,

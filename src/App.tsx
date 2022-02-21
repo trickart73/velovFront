@@ -35,7 +35,7 @@ function App() {
           {/* public routes */}
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/" element={<Dashboard />} />
+          <Route path="/" element={<Home />} />
           <Route path="/profile" element={<Profile />} />
 
           {/* protected routes */}

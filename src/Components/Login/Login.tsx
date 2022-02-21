@@ -67,7 +67,7 @@ export default function Login() {
       password: pwd,
     }
 
-    await axios.post('http://192.168.1.168:8080/api/auth/signin', data)
+    await axios.post('http://10.206.180.192:8080/api/auth/signin', data)
       .then((response) => {
         const accessToken = response?.data?.accessToken
         const roles = response?.data?.roles

@@ -151,7 +151,7 @@ export default function Register() {
       roles,
     }
 
-    await axios.post('http://192.168.1.168:8080/api/auth/signup', data)
+    await axios.post('http://10.206.180.192:8080/api/auth/signup', data)
       .then((response) => {
         console.log(response)
         setUser('')
