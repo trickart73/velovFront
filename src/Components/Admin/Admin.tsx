@@ -17,12 +17,13 @@ function Admin() {
     <div className="Admin">
       { !isAdminLogIn ? (
         <section>
-          <h1>You are not admin!</h1>
+          <h1>Vous n'avez pas le rôle d'administrateur!</h1>
           <br />
         </section>
       ) : (
         <section>
-          <h1> Ok admin</h1>
+          <h1> Bienvenue sur la page réservée aux administrateurs.</h1>
+          <h2> Vous pourrez bientôt sur cette page éditez la base de données utilisateurs.</h2>
 
         </section>
       ) }

@@ -197,7 +197,7 @@ export default function Register() {
 
   const paperStyleCenter = {
     padding: 20,
-    height: '80vh',
+    height: '45vh',
     width: 280,
     margin: '20px auto',
   }
@@ -333,16 +333,6 @@ export default function Register() {
             <FormControlLabel control={<Checkbox />} label="Utilisateur" onChange={handleChangeUserIsCheck} />
             <FormControlLabel control={<Checkbox />} label="Administrateur" onChange={handleChangeAdminIsCheck} />
             <Button disabled={!!(!validName || !validPwd || !validMail || !rolesIsOk)} type="submit" color="primary" variant="contained" fullWidth style={btnStyle} onClick={handleSubmit}>S'enregistrer </Button>
-            <div>
-              {userFocus}
-              {user}
-              <br />
-              {pwd}
-              <br />
-              {mail}
-              <br />
-              {roles}
-            </div>
 
           </Paper>
         </Grid>

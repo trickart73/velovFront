@@ -24,21 +24,54 @@ function Profile() {
     // window.location.reload()
   }
 
+  const stringCurrentUserRoles = currentUser.roles
+  let stringAcces = ''
+  if (stringCurrentUserRoles.includes('ROLE_USER')) {
+    if (stringAcces.includes('modérateur') || stringAcces.includes('administrateur')) {
+      stringAcces = stringAcces.concat('/', ' utilisateur ')
+    } else {
+      stringAcces = stringAcces.concat('', ' utilisateur ')
+    }
+  }
+  if (stringCurrentUserRoles.includes('ROLE_MODERATOR')) {
+    if (stringAcces.includes('utilisateur') || stringAcces.includes('administrateur')) {
+      stringAcces = stringAcces.concat('/', ' modérateur ')
+    } else {
+      stringAcces = stringAcces.concat('', ' modérateur ')
+    }
+  }
+  if (stringCurrentUserRoles.includes('ROLE_ADMIN')) {
+    if (stringAcces.includes('utilisateur') || stringAcces.includes('modérateur')) {
+      stringAcces = stringAcces.concat('/', ' administrateur ')
+    } else {
+      stringAcces = stringAcces.concat('', ' administrateur ')
+    }
+  }
+
   return (
     <div className="profile">
       { !isLogIn ? (
         <section>
-          <h1>You are not logged!</h1>
+          <h1>Vous n'êtes pas connecté !</h1>
           <br />
         </section>
       ) : (
         <div>
-          <p> You are logged</p>
-          <strong>
-            { currentUser.username}
-          </strong>
           <p>
-            <strong>Token:</strong>
+            {' '}
+            Bienvenue
+            {' '}
+            <strong>
+              { currentUser.username}
+            </strong>
+            {' '}
+            ,vous êtes connecté !
+            {' '}
+
+          </p>
+
+          <p>
+            <strong>Votre token personnel :</strong>
             {' '}
             {currentUser.accessToken.substring(0, 20)}
             {' '}
@@ -46,20 +79,16 @@ function Profile() {
             {' '}
             {currentUser.accessToken.substr(currentUser.accessToken.length - 20)}
           </p>
+
           <p>
-            <strong>Id:</strong>
-            {' '}
-            {currentUser.id}
-          </p>
-          <p>
-            <strong>Email:</strong>
+            <strong>Votre mail :</strong>
             {' '}
             {currentUser.email}
           </p>
           <p>
-            <strong>Roles:</strong>
+            <strong>Vos accès :</strong>
             {' '}
-            {currentUser.roles}
+            {stringAcces}
           </p>
           <Button
             type="submit"
@@ -70,7 +99,7 @@ function Profile() {
             component={Link}
             to="/login"
           >
-            Log out
+            Se déconnecter
             {' '}
 
           </Button>

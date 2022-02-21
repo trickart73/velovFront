@@ -71,12 +71,12 @@ export default function Map() {
 
       { !isLogIn ? (
         <section>
-          <h1>You are not logged in!</h1>
+          <h1>Merci de vous connecter pour accéder à ce service.</h1>
           <br />
         </section>
       ) : (
         <Box
-          sx={{ m: 2 }}
+          sx={{ m: 7 }}
           display="flex"
           justifyContent="center"
           alignItems="center"

@@ -93,7 +93,7 @@ export default function Login() {
 
   const paperStyleCenter = {
     padding: 20,
-    height: '70vh',
+    height: '45vh',
     width: 280,
     margin: '20px auto',
   }
@@ -104,6 +104,12 @@ export default function Login() {
 
   const btnStyle = {
     margin: '20px 0',
+  }
+
+  const logout = () => {
+    // console.log('logout')
+    localStorage.removeItem('user')
+    // window.location.reload()
   }
 
   useEffect(() => {
@@ -120,8 +126,18 @@ export default function Login() {
     <div className="login">
       {isLogIn ? (
         <section>
-          <h1>You are logged in!</h1>
+          <h1>
+            Vous êtes connecté
+            {' '}
+            <strong>
+              { currentUser.username}
+            </strong>
+            {' '}
+            !
+
+          </h1>
           <br />
+
         </section>
       ) : (
         <Grid>
