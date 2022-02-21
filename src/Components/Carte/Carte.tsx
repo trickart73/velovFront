@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import {
   MapContainer, TileLayer, Marker, Popup,
 } from 'react-leaflet'
+import L from 'leaflet'
 import * as R from 'ramda'
 
 import Button from '@mui/material/Button'
@@ -11,8 +12,9 @@ import Box from '@mui/material/Box'
 import {
   Grid, Paper, Avatar, Link, Typography,
 } from '@mui/material'
+import velovIconPng from '../../ressources/BicycleMarkerSymbol.png'
 
-import './Map.css'
+import './Carte.css'
 import velovData from '../../data/lastUpdateVelov.json'
 
 export default function Map() {
@@ -20,6 +22,11 @@ export default function Map() {
   const longCenterMap = 4.835659
   const [data, setData] = useState([])
   const [dataActualiseButtonIsClicked, setStationIsClicked] = useState(false)
+
+  const velovIcon = L.icon({
+    iconUrl: velovIconPng,
+    iconSize: [30, 45], // size of the icon
+  })
 
   const btnStyle = {
     margin: '8px 0',
@@ -69,6 +76,7 @@ export default function Map() {
         </section>
       ) : (
         <Box
+          sx={{ m: 2 }}
           display="flex"
           justifyContent="center"
           alignItems="center"
@@ -85,14 +93,15 @@ export default function Map() {
 
               <Marker
                 position={[vlov.geometry.coordinates[1], vlov.geometry.coordinates[0]]}
+                icon={velovIcon}
               >
 
                 <Popup position={[vlov.geometry.coordinates[1], vlov.geometry.coordinates[0]]}>
                   <div>
                     <h3>{`Station ${vlov.properties.name}`}</h3>
-                    <p>{`Last update: ${vlov.properties.last_update}`}</p>
-                    <p>{`Available_bikes: ${vlov.properties.available_bikes}`}</p>
-                    <p>{`Available_bike_stands: ${vlov.properties.available_bike_stands}`}</p>
+                    <p>{`Vélos disponibles : ${vlov.properties.available_bikes}`}</p>
+                    <p>{`Places disponibles : ${vlov.properties.available_bike_stands}`}</p>
+                    <p>{`Dernière mise à jour : ${vlov.properties.last_update}`}</p>
                   </div>
 
                 </Popup>
